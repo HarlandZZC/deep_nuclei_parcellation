@@ -3,22 +3,22 @@ import argparse
 import subprocess
 from multiprocessing.pool import ThreadPool
 # conda activate DDSurfer 
-# python /home/haolin/Research/HCP_seg/transform_wmparc_file_forSeqDilation_site.py --folder folder  --num_workers 1
+# python ./HCP_seg/transform_wmparc_file_forSeqDilation_site.py --folder folder  --num_workers 1
 
-# 解析命令行参数
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--folder', required=True, help='要处理的文件夹路径')
 parser.add_argument('--num_workers', default=4, type=int, help='Number of workers')  
 args = parser.parse_args()
 
-# 获取文件夹的路径
+
 folder = args.folder
 num_workers = args.num_workers
 
 
-# 定义处理函数
+
 def process_subfolder(subfolder_path):
-    subfolder_name = os.path.basename(subfolder_path)  # 获取子文件夹名称
+    subfolder_name = os.path.basename(subfolder_path)  
     print(f"----- Transform Wmparc(for SeqDilation) for {subfolder_name} -----") 
     ses_folders = [f for f in os.listdir(subfolder_path) if f.startswith('ses-') and os.path.isdir(os.path.join(subfolder_path, f))]
     
@@ -36,7 +36,7 @@ def process_subfolder(subfolder_path):
             wmparcniigz_path = os.path.join(DS_folder, sb_DS_folder, wmparcniigz_file)
             output_path = os.path.join(DS_folder, sb_DS_folder, sb_DS_folder + '-DDSurfer-wmparc-SeqDilation-mni.nii.gz')
 
-            # 构建命令
+    
             command = [
                 "antsApplyTransforms",
                 "-d",

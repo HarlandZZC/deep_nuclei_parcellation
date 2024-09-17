@@ -1,7 +1,7 @@
 import argparse
 import pandas as pd
 import os
-# python /home/haolin/Research/HCP_seg/append_csv_for_segmentation.py --infolder folder1 --outfolder folder2 --f f --k k --iteration iter --labels labels
+# python ./HCP_seg/append_csv_for_segmentation.py --infolder folder1 --outfolder folder2 --f f --k k --iteration iter --labels labels
 
 def append_csv_for_segmentation(infolder, outfolder, f_value, k_value, iteration_value, label_list):
     for label_value in label_list:

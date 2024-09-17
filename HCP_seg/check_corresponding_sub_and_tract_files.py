@@ -1,6 +1,6 @@
 import os
 import argparse
-# python /home/haolin/Research/HCP_seg/check_corresponding_sub_and_tract_files.py --subject_folder folder1 --tract_folder folder2
+# python ./HCP_seg/check_corresponding_sub_and_tract_files.py --subject_folder folder1 --tract_folder folder2
 
 
 def list_subject_folders(folder):

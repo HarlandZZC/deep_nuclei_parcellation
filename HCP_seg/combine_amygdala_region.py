@@ -1,13 +1,12 @@
 import nibabel as nib
 import numpy as np
 import argparse
-#  python /home/haolin/Research/HCP_seg/combine_amygdala_region.py --infile --outfile 
+#  python ./HCP_seg/combine_amygdala_region.py --infile --outfile 
 
 def combine_amygdala_region(infile, outfile):
     img = nib.load(infile)
     data = img.get_fdata().astype(int)  # 转换为整数
 
-    # 重赋值
     #LB
     data[data == 15] = 1
     data[data == 11] = 1
@@ -28,10 +27,8 @@ def combine_amygdala_region(infile, outfile):
     data[data == 16] = 3
     data[data == 21] = 3
 
-    # 创建一个新的 NIfTI 图像
     result_img = nib.Nifti1Image(data, img.affine, img.header)
 
-    # 保存结果到输出文件
     nib.save(result_img, outfile)
     print(f"Voxel values modified and saved to {outfile}.")
 

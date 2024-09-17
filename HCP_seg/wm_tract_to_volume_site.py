@@ -3,9 +3,9 @@ import argparse
 import subprocess
 from multiprocessing.pool import ThreadPool
 # conda activate DDSurfer 
-# python /home/haolin/Research/HCP_seg/wm_tract_to_volume_site.py --folder folder --f f --k k --iteration iter --num_workers 1
+# python ./HCP_seg/wm_tract_to_volume_site.py --folder folder --f f --k k --iteration iter --num_workers 1
 
-# 解析命令行参数
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--folder', required=True, help='要处理的文件夹路径')
 parser.add_argument('--num_workers', default=4, type=int, help='Number of threads')  
@@ -14,16 +14,16 @@ parser.add_argument("--k", required=True, type=int, help="Value of 'k'")
 parser.add_argument("--iteration", required=True, type=int, help="Value of 'iteration'")
 args = parser.parse_args()
 
-# 获取文件夹的路径
+
 folder = args.folder
 num_workers = args.num_workers
 f_value = args.f
 k_value = args.k
 iteration_value = args.iteration
 
-# 定义处理函数
+
 def process_subfolder(subfolder_path):
-    subfolder_name = os.path.basename(subfolder_path)  # 获取子文件夹名称
+    subfolder_name = os.path.basename(subfolder_path)  
     print(f"----- WM tract to volume for {subfolder_name} -----") 
     ses_folders = [f for f in os.listdir(subfolder_path) if f.startswith('ses-') and os.path.isdir(os.path.join(subfolder_path, f))]
     
@@ -40,10 +40,10 @@ def process_subfolder(subfolder_path):
                 os.makedirs(outputVol_folder_path)
             
             for filename in os.listdir(inputVTK_folder_path):
-                # 检查文件是否以.vtp结尾
+
                 if filename.endswith(".vtp"):
                     out_filename = os.path.splitext(filename)[0] + ".nii.gz"
-                    # 构建命令
+           
                     command = [
                         "python",
                         "/home/haolin/Research/Segmentation/wm_tract_to_volume.py",

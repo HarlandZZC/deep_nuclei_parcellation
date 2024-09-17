@@ -3,7 +3,7 @@ import argparse
 import nibabel as nib
 import numpy as np
 import pandas as pd
-# python /home/haolin/Research/HCP_seg/count_overlap_between_cluster_and_region.py --cluster_folder --region_folder --outcsv
+# python ./HCP_seg/ount_overlap_between_cluster_and_region.py --cluster_folder --region_folder --outcsv
 
 def calculate_overlap(cluster_folder, region_folder):
     overlap_dict = {}

@@ -4,22 +4,19 @@ import subprocess
 from multiprocessing.pool import ThreadPool
 # source /data01/software/bashrc
 # conda activate DDSurfer 
-# python /home/haolin/Research/HCP_seg/transform_dwi_file_forOrigin_site.py --folder folder  --num_workers 1
+# python ./HCP_seg/transform_dwi_file_forOrigin_site.py --folder folder  --num_workers 1
 
-# 解析命令行参数
 parser = argparse.ArgumentParser()
 parser.add_argument('--folder', required=True, help='要处理的文件夹路径')
 parser.add_argument('--num_workers', default=4, type=int, help='Number of workers')  
 args = parser.parse_args()
 
-# 获取文件夹的路径
 folder = args.folder
 num_workers = args.num_workers
 
 
-# 定义处理函数
 def process_subfolder(subfolder_path):
-    subfolder_name = os.path.basename(subfolder_path)  # 获取子文件夹名称
+    subfolder_name = os.path.basename(subfolder_path) 
     print(f"----- Transform DWI(for Origin) for {subfolder_name} -----") 
   
     nifti_path = os.path.join(subfolder_path, "ses-1", "dwi", f"{subfolder_name}_ses-1_run-1_dwi.nii.gz" )
@@ -32,7 +29,7 @@ def process_subfolder(subfolder_path):
 
     output_path = os.path.join(subfolder_path, "ses-1", "dwi", f"{subfolder_name}_ses-1_run-1_dwi-mni.nii.gz" )
 
-    # 构建命令
+
     command = [
         "antsApplyTransforms",
         "-d",

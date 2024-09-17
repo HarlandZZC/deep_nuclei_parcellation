@@ -1,7 +1,7 @@
 import nibabel as nib
 import numpy as np
 import argparse
-#  python /home/haolin/Research/HCP_seg/combine_thalamus_region.py --infile --outfile 
+#  python ./HCP_seg/combine_thalamus_region.py --infile --outfile 
 
 def combine_amygdala_region(infile, outfile):
     img = nib.load(infile)

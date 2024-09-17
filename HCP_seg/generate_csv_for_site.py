@@ -3,9 +3,8 @@ import argparse
 import subprocess
 from multiprocessing.pool import ThreadPool
 # conda activate DDSurfer 
-# python /home/haolin/Research/HCP_seg/generate_csv_for_site.py --folder folder --f f --k k --iteration iter --labels 18 54 
+# python ./HCP_seg/generate_csv_for_site.py --folder folder --f f --k k --iteration iter --labels 18 54 
 
-# 解析命令行参数
 parser = argparse.ArgumentParser()
 parser.add_argument('--folder', required=True, help='要处理的文件夹路径')
 parser.add_argument("--f", required=True, type=int, help="Value of 'f'")
@@ -14,16 +13,14 @@ parser.add_argument("--iteration", required=True, type=int, help="Value of 'iter
 parser.add_argument('--labels', nargs='+', type=int, required=True, help='关注的labels')
 args = parser.parse_args()
 
-# 获取文件夹的路径
 folder = args.folder
 f_value = args.f
 k_value = args.k
 iteration_value = args.iteration
 label_list = args.labels
 
-# 定义处理函数
 def process_subfolder(subfolder_path):
-    subfolder_name = os.path.basename(subfolder_path)  # 获取子文件夹名称
+    subfolder_name = os.path.basename(subfolder_path)
     print(f"----- Reading csv for {subfolder_name} -----") 
     ses_folders = [f for f in os.listdir(subfolder_path) if f.startswith('ses-') and os.path.isdir(os.path.join(subfolder_path, f))]
     

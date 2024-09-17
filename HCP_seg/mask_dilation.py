@@ -3,7 +3,7 @@ import nibabel as nib
 import numpy as np
 import argparse
 from scipy.ndimage import binary_dilation
-# python /home/haolin/Research/HCP_seg/mask_dilation.py --infolder --outfolder
+# python ./HCP_seg/mask_dilation.py --infolder --outfolder
 
 def dilate_masks(infolder, outfolder, struct):
     for file in os.listdir(infolder):

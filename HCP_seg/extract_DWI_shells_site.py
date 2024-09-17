@@ -2,14 +2,12 @@ import os
 import argparse
 import subprocess
 import csv
-# python /home/haolin/Research/HCP_seg/extract_DWI_shells_site.py --folder folder 
+# python ./HCP_seg/extract_DWI_shells_site.py --folder folder 
 
-# 解析命令行参数
 parser = argparse.ArgumentParser()
 parser.add_argument('--folder', required=True, help='要处理的文件夹路径')
 args = parser.parse_args()
 
-# 获取文件夹的路径
 folder = args.folder
 subfolders = [os.path.join(folder, f) for f in os.listdir(folder) if os.path.isdir(os.path.join(folder, f))]
 
@@ -44,7 +42,7 @@ for subfolder_path in subfolders:
 
             with open('/data02/AmygdalaSeg/Processing/statistics_bval_HCP100.csv') as f:
                 reader = csv.reader(f) 
-                next(reader) # 跳过第一行
+                next(reader)
                 for row in reader:
                     bval = int(row[0])
                     if bval < 0 or bval > 1020:  
@@ -59,7 +57,6 @@ for subfolder_path in subfolders:
 
 run_script = run_script + "exit"
 command.append(run_script)
-# 将命令列表转换为字符串
 # command_str = " ".join(command)
 print("start running...")
 subprocess.call(command)

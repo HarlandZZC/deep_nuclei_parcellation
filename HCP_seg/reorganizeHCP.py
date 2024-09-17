@@ -1,7 +1,7 @@
 import os
 import shutil
 import argparse
-# python /home/haolin/Research/HCP_seg/reorganizeHCP.py  --folder folder
+# python ./HCP_seg/reorganizeHCP.py  --folder folder
 
 def process_folder(folder_path):
     for subject_folder in os.listdir(folder_path):

@@ -2,13 +2,13 @@ import os
 import nibabel as nib
 import numpy as np
 import argparse
-#  python /home/haolin/Research/HCP_seg/find_regions.py --infile  --outfile --region 15 11 19 13 236 17 186 22 16 21
+#  python ./HCP_seg/find_regions.py --infile  --outfile --region 15 11 19 13 236 17 186 22 16 21
 
 # 228 237 235
 
 def find_regions(infile, outfile, target_regions):
     img = nib.load(infile)
-    data = img.get_fdata().astype(int)  # 转换为整数
+    data = img.get_fdata().astype(int)
     
     # Create a mask for the target regions
     mask = np.isin(data, target_regions)

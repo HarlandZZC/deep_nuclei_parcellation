@@ -4,23 +4,23 @@ import argparse
 import subprocess
 from multiprocessing.pool import ThreadPool
 # conda activate DDSurfer 
-# python /home/haolin/Research/HCP_seg/wm_add_wmparc_forOrigin_site.py --SiteFolder folder1 --TractFolder folder2 --num_workers 1
+# python ./HCP_seg/wm_add_wmparc_forOrigin_site.py --SiteFolder folder1 --TractFolder folder2 --num_workers 1
 
-# 解析命令行参数
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--SiteFolder', required=True, help='要处理的文件夹路径')
 parser.add_argument('--TractFolder', required=True, help='包含Tractography的文件夹路径')
 parser.add_argument('--num_workers', default=4, type=int, help='Number of workers')  
 args = parser.parse_args()
 
-# 获取文件夹的路径
+
 SiteFolder = args.SiteFolder
 TractFolder = args.TractFolder
 num_workers = args.num_workers
 
-# 定义处理函数
+
 def process_subfolder(subfolder_path):
-    subfolder_name = os.path.basename(subfolder_path)  # 获取子文件夹名称
+    subfolder_name = os.path.basename(subfolder_path)  
     print(f"----- WM add wmparc (for Origin) for {subfolder_name} -----") 
     ses_folders = [f for f in os.listdir(subfolder_path) if f.startswith('ses-') and os.path.isdir(os.path.join(subfolder_path, f))]
     
@@ -36,7 +36,7 @@ def process_subfolder(subfolder_path):
             tract_path = os.path.join(TractFolder, tract_file)
             output_path = os.path.join(subfolder_path, f'{ses_folder}/dwi/WMadded/{sb_DS_folder}/{sb_DS_folder}-WMadded.vtk')
             
-            # 生成命令行
+      
             command = [
                 "python",
                 "/home/haolin/Research/Segmentation/wm_add_wmparc.py",

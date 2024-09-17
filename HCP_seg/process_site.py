@@ -3,24 +3,21 @@ import glob
 import argparse
 import subprocess
 # conda activate DDSurfer 
-# python /home/haolin/Research/HCP_seg/process_site.py --folder folder --flip 1
+# python ./HCP_seg/process_site.py --folder folder --flip 1
 
-# 解析命令行参数
 parser = argparse.ArgumentParser()
 parser.add_argument('--folder', required=True, help='文件夹路径')
 parser.add_argument('--flip', type=int, required=True, help='Flip value (0 or 1)')
 args = parser.parse_args()
 
-# 获取文件夹的路径
 folder = args.folder
 flip = args.flip
 
-# 获取文件夹中的所有子文件夹
 subfolders = [os.path.join(folder, f) for f in os.listdir(folder) if os.path.isdir(os.path.join(folder, f))]
 
-# 定义处理函数
+
 def process_subfolder(subfolder_path):
-    subfolder_name = os.path.basename(subfolder_path)  # 获取子文件夹名称
+    subfolder_name = os.path.basename(subfolder_path)  
     print(f"----- DDSurfer for {subfolder_name} -----") 
     ses_folders = [f for f in os.listdir(subfolder_path) if f.startswith('ses-') and os.path.isdir(os.path.join(subfolder_path, f))]
     
@@ -44,7 +41,7 @@ def process_subfolder(subfolder_path):
             DDSurfer_output_folder = os.path.join(subfolder_path, f'{ses_folder}/dwi/DDSurfer/{subID}')
             print("Target folder path:", DDSurfer_output_folder)
             
-            # 生成命令行
+          
             command = [
                 "bash",
                 "/home/haolin/Research/HCP_seg/process_command.sh",
@@ -67,7 +64,7 @@ def process_subfolder(subfolder_path):
                     os.remove(file)
 
 
-# 处理每个子文件夹
+
 for subfolder in subfolders:
     process_subfolder(subfolder)
 

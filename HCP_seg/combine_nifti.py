@@ -2,7 +2,7 @@ import os
 import nibabel as nib
 import numpy as np
 import argparse
-# python /home/haolin/Research/HCP_seg/combine_nifti.py --infolder  --outfile
+# python ./HCP_seg/combine_nifti.py --infolder  --outfile
 
 
 def combine_nifti(infolder, outfile):

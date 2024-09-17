@@ -2,23 +2,20 @@ import os
 import argparse
 import subprocess
 from multiprocessing.pool import ThreadPool
-# 使用前在代码中修改region
+# change region before running
 # conda activate DDSurfer 
-# python /home/haolin/Research/HCP_seg/sequential_region_dilation_site.py --folder folder --num_workers 1
+# python ./HCP_seg/sequential_region_dilation_site.py --folder folder --num_workers 1
 
-# 解析命令行参数
 parser = argparse.ArgumentParser()
 parser.add_argument('--folder', required=True, help='要处理的文件夹路径')
 parser.add_argument('--num_workers', default=4, type=int, help='Number of threads')  
 args = parser.parse_args()
 
-# 获取文件夹的路径
 folder = args.folder
 num_workers = args.num_workers
 
-# 定义处理函数
 def process_subfolder(subfolder_path):
-    subfolder_name = os.path.basename(subfolder_path)  # 获取子文件夹名称
+    subfolder_name = os.path.basename(subfolder_path) 
     print(f"----- Region dilation for {subfolder_name} -----") 
     ses_folders = [f for f in os.listdir(subfolder_path) if f.startswith('ses-') and os.path.isdir(os.path.join(subfolder_path, f))]
     
@@ -32,21 +29,16 @@ def process_subfolder(subfolder_path):
             wmparcniigz_path = os.path.join(DS_folder, sb_DS_folder, wmparcniigz_file)
             output_path = os.path.join(DS_folder, sb_DS_folder, sb_DS_folder + '-DDSurfer-wmparc-SeqDilation.nii.gz')
             
-            # 生成 label_numbers 列表
-            label_numbers = [10, 49]  # 添加单独的数字
+            label_numbers = [10, 49] 
 
-            # # 添加范围 1000-1035 的数字
             # for num in range(1000, 1036):
             #     label_numbers.append(num)
 
-            # # 添加范围 2000-2035 的数字
             # for num in range(2000, 2036): 
             #     label_numbers.append(num)
 
-            # 将列表中的数字添加到 --labels 参数中
             labels_param = "--labels " + " ".join(map(str, label_numbers))
 
-            # 构建命令
             command = [
                 "python",
                 "/home/haolin/Research/Segmentation/region_dilation_sequentially.py",
@@ -55,9 +47,7 @@ def process_subfolder(subfolder_path):
                 "--out_file",
                 output_path,
             ]
-            command.extend(labels_param.split())  # 添加 --labels 参数到命令中
-
-
+            command.extend(labels_param.split()) 
 
             # Execute the command
             subprocess.call(command)

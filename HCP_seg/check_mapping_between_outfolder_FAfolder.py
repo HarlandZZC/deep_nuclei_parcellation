@@ -3,7 +3,7 @@ import sys
 import nibabel as nib
 import nrrd
 import argparse
-# python /home/haolin/Research/HCP_seg/check_mapping_between_outfolder_FAfolder.py --FAfolder --outfolder
+# python ./HCP_seg/check_mapping_between_outfolder_FAfolder.py --FAfolder --outfolder
 
 def check_dimensions(nii_file, nrrd_file):
     # Load the NIfTI file
