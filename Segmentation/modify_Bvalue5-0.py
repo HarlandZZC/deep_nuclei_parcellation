@@ -1,6 +1,6 @@
 import argparse
 import numpy as np
-# python /home/haolin/Research/Segmentation/modify_Bvalue5-0.py --inbval input.bval --inbvec input.bvec --outbval output.bval --outbvec output.bvec
+# python ./Segmentation/modify_Bvalue5-0.py --inbval input.bval --inbvec input.bvec --outbval output.bval --outbvec output.bvec
 
 def modify_bvalue_and_bvec(in_bval_path, in_bvec_path, out_bval_path, out_bvec_path):
     # Load b-values and b-vectors

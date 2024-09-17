@@ -3,7 +3,7 @@ import argparse
 import pandas as pd
 import re
 import numpy as np
-# python /home/haolin/Research/Segmentation/merge_and_tune_csv_of_different_labels.py --infolder folder1 --outfolder folder2 --f f --k k --iteration iter --labels labels --binarization 1
+# python ./Segmentation/merge_and_tune_csv_of_different_labels.py --infolder folder1 --outfolder folder2 --f f --k k --iteration iter --labels labels --binarization 1
 
 def merge_and_tune_csv(infolder, outfolder, f_value, k_value, iteration_value, labels, binarization):
     data_frames = []

@@ -1,7 +1,7 @@
 import os
 import argparse
 import shutil
-# python /home/haolin/Research/Segmentation/map_split_atlas_back_to_subjects.py  --atlas_folder folder1 --subject_folder folder2 --f f --k k --iteration iteration
+# python ./Segmentation/map_split_atlas_back_to_subjects.py  --atlas_folder folder1 --subject_folder folder2 --f f --k k --iteration iteration
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Map atlas folders back to subjects.")

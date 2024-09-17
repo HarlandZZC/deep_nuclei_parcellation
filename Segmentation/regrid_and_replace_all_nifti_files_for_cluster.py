@@ -2,7 +2,7 @@ import os
 import argparse
 import subprocess
 # source /data01/software/bashrc
-# python /home/haolin/Research/Segmentation/regrid_and_replace_all_nifti_files_for_cluster.py --folder folder --f f --k k --iteration iter
+# python ./Segmentation/regrid_and_replace_all_nifti_files_for_cluster.py --folder folder --f f --k k --iteration iter
 
 def regrid_nifti(input_path, output_path):
     command = f"mrgrid {input_path} regrid {output_path} -voxel 2,2,2 -interp nearest -force"

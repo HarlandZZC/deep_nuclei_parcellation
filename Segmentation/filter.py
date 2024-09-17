@@ -1,7 +1,7 @@
 import argparse
 import os
 import shutil
-# python /home/haolin/Research/Segmentation/filter.py --input folder1 --output folder2
+# python ./Segmentation/filter.py --input folder1 --output folder2
 
 def is_valid_file(filename):
     return filename.endswith('.vtk')

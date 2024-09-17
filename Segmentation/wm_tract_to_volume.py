@@ -5,7 +5,7 @@ import vtk
 import numpy
 from nibabel.affines import apply_affine
 # conda activate DDSurfer
-# python /home/haolin/Research/Segmentation/wm_tract_to_volume.py inputVTK refvolume outputVol
+# python ./Segmentation/wm_tract_to_volume.py inputVTK refvolume outputVol
 
 try:
     import whitematteranalysis as wma

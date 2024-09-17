@@ -3,7 +3,7 @@ import numpy as np
 import nibabel as nib
 import argparse
 import csv
-# python /home/haolin/Research/Segmentation/dice.py --folder folder --n_clusters c
+# python ./Segmentation/dice.py --folder folder --n_clusters c
 
 def compute_dice_coefficient(mask1, mask2):
     intersection = np.sum(mask1 * mask2)

@@ -2,7 +2,7 @@ import nibabel as nib
 import numpy as np
 from scipy import ndimage
 import argparse
-# python /home/haolin/Research/Segmentation/region_dilation_successively.py --in_file /data02/ASD/test/test_301DS/sub-13166/ses-2/dwi/DDSurfer/sub-13166_ses-2_run-1/sub-13166_ses-2_run-1-DDSurfer-wmparc.nii.gz --out_file /data02/ASD/test/test_301DS/sub-13166/ses-2/dwi/DDSurfer/sub-13166_ses-2_run-1/sub-13166_ses-2_run-1-DDSurfer-wmparc-dilation.nii.gz --labels 18 54
+# python ./Segmentation/region_dilation_successively.py --in_file /data02/ASD/test/test_301DS/sub-13166/ses-2/dwi/DDSurfer/sub-13166_ses-2_run-1/sub-13166_ses-2_run-1-DDSurfer-wmparc.nii.gz --out_file /data02/ASD/test/test_301DS/sub-13166/ses-2/dwi/DDSurfer/sub-13166_ses-2_run-1/sub-13166_ses-2_run-1-DDSurfer-wmparc-dilation.nii.gz --labels 18 54
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--in_file')
@@ -35,14 +35,13 @@ for label in args.labels:
 
     dilated_data = data.copy()
 
-    # 获取待覆盖像素的坐标
     overlay_coords = np.where(dilated_mask)
     
-    # 检查待覆盖像素的标签是否在指定范围内
+
     for overlay_x, overlay_y, overlay_z in zip(*overlay_coords):
         overlay_label = dilated_data[overlay_x, overlay_y, overlay_z]
         if (1000 <= overlay_label <= 1035) or (2000 <= overlay_label <= 2035):
-            continue  # 不执行覆盖操作
+            continue  
         dilated_data[overlay_x, overlay_y, overlay_z] = label
     
     print('Dilated data type:', dilated_data.dtype)

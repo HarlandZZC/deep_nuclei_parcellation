@@ -6,7 +6,7 @@ import numpy as np
 import multiprocessing as mp
 import csv
 import argparse
-# python /home/haolin/Research/Segmentation/compute_A.py --incsv csv --labels --infolder folder
+# python ./Segmentation/compute_A.py --incsv csv --labels --infolder folder
 
 
 def compute_agglomeration(coordinates, labels):

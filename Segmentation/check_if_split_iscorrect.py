@@ -3,7 +3,7 @@ import argparse
 import vtk
 from collections import defaultdict
 # conda activate DDSurfer
-# python /home/haolin/Research/Segmentation/check_if_split_iscorrect.py --original_atlas folder1 --split_atlas folder2 --num_clusters 200
+# python ./Segmentation/check_if_split_iscorrect.py --original_atlas folder1 --split_atlas folder2 --num_clusters 200
 
 
 def count_fibers_in_vtp(file_path):

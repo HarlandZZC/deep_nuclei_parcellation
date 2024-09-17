@@ -2,7 +2,7 @@ import os
 import argparse
 import nibabel as nib
 import h5py
-# python /home/haolin/Research/Segmentation/nifti_xfm2hdf5_xfm.py --infolder folder1 --outfolder folder2
+# python ./Segmentation/nifti_xfm2hdf5_xfm.py --infolder folder1 --outfolder folder2
 
 def convert_nifti_to_hd5(input_folder, output_folder):
     if not os.path.exists(output_folder):

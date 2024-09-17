@@ -3,7 +3,7 @@ import argparse
 import nibabel as nib
 import numpy as np
 import csv
-# python /home/haolin/Research/Segmentation/cluster_statistics.py --infolder folder
+# python ./Segmentation/cluster_statistics.py --infolder folder
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--infolder', required=True)
@@ -48,12 +48,12 @@ with open(os.path.join(folder, 'cluster_statistics.csv'), 'w') as f:
         percentage = count / total_voxels
         writer.writerow([c, count, percentage])
 
-    # 计算'Count'和'Percentage'的方差和标准差
+    
     count_variance = np.var(counts)
     count_std = np.std(counts)
     percentage_variance = np.var(percentages)
     percentage_std = np.std(percentages)
 
-    # 将方差和标准差添加到csv文件的最后一行
+  
     writer.writerow(['Variance', count_variance, percentage_variance])
     writer.writerow(['Standard Deviation', count_std, percentage_std])

@@ -3,7 +3,7 @@ import vtk
 import numpy
 import argparse
 # conda activate DDSurfer
-# python /home/haolin/Research/Segmentation/split_atlas.py --infolder folder1 --outfolder folder2
+# python ./Segmentation/split_atlas.py --infolder folder1 --outfolder folder2
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--infolder', required=True)
@@ -178,65 +178,58 @@ def mask(inpd, fiber_mask, color=None, preserve_point_data=False, preserve_cell_
 
 
 with open(f"{infolder}/input_subjects.txt", "r") as file:
-    # 初始化空数组来存储 Subject_ID
     subject_ids = []
 
-    # 逐行读取文件内容
-    first_line = True  # 添加一个标志，用于检查是否是第一行
+    first_line = True 
     for line in file:
         if first_line:
-            first_line = False  # 设置标志为 False，表示不再是第一行
-            continue  # 跳过第一行
+            first_line = False  
+            continue  
 
-        # 使用制表符或空格分割每一行
-        columns = line.strip().split('\t')  # 使用'\t'分割，因为文件中是用制表符分隔的
+        columns = line.strip().split('\t')
         if len(columns) > 0:
-            subject_id = columns[0]  # 获取第一列的 Subject_ID
+            subject_id = columns[0] 
             subject_ids.append(subject_id)
 
-# 将列表中的每个值减去1
+
 subject_ids = [int(id) - 1 for id in subject_ids]
 
 print(f"Subject_ID: {subject_ids}")
 
 
 
-
-
-# 遍历每一个cluster文件
 for fname in os.listdir(infolder):
     if fname.startswith('cluster_') and fname.endswith('.vtp'):
         inpd_path = os.path.join(infolder, fname)
 
-        # 创建一个vtk.vtkPolyDataReader对象
+        
         inpd_reader = vtk.vtkXMLPolyDataReader()
 
-        # 设置要读取的文件名
+        
         inpd_file_path = os.path.join(infolder, fname)
         inpd_reader.SetFileName(inpd_file_path)
 
-        # 执行读取操作
+       
         inpd_reader.Update()
 
-        # 获取读取的vtkPolyData对象
+ 
         inpd = inpd_reader.GetOutput()
 
-        # 创建一个与线的数量相同的numpy数组，用于存储mask
+
         fiber_mask = numpy.zeros(inpd.GetNumberOfLines(), dtype=int)
         point_data_array = inpd.GetPointData().GetArray("Subject_ID")
 
-        # 获取线的数量
+
         num_lines = inpd.GetNumberOfLines()
 
-        # 创建一个空的cell_data_array，数据类型为int
+
         cell_data_array = numpy.zeros(num_lines, dtype=int)
         inpd.GetLines().InitTraversal()
 
 
-        # 遍历每根线
+
         for line_id in range(num_lines):
             line = inpd.GetCell(line_id)
-            # 假设每根线上的第一个点的Subject_ID是一致的，因此我们可以取第一个点的Subject_ID
             point_id = line.GetPointId(0)
             # print(f"point_id:{point_id}")
             subject_id = inpd.GetPointData().GetArray("Subject_ID").GetValue(point_id)
@@ -250,21 +243,17 @@ for fname in os.listdir(infolder):
                     all_subject_ids_match = False
                     break
             
-            # 如果所有点的Subject_ID都一致，则将其赋值给cell_data_array
+
             if all_subject_ids_match:
                 cell_data_array[line_id] = subject_id
             else:
-            # 如果不一致，引发一个异常并终止程序
-                raise Exception("Subject_ID不一致，无法处理。线的ID：" + str(line_id))
+                raise Exception("Subject_ID not thr same。line ID:" + str(line_id))
         
 
-        # 对每个subject进行mask
         for subject_id in subject_ids:
 
-            # 创建一个与线的数量相同的numpy数组，用于存储mask
             fiber_mask = numpy.zeros(inpd.GetNumberOfLines(), dtype=int)
 
-            # 遍历每根线，根据Subject_ID生成mask
             for lidx in range(0, inpd.GetNumberOfLines()):
                 if cell_data_array is not None:
                     line_subject_id = cell_data_array[lidx]
@@ -274,10 +263,8 @@ for fname in os.listdir(infolder):
                         fiber_mask[lidx] = 1
             # print(f"fiber mask for {subject_id}:{fiber_mask} ")
 
-            # 使用mask函数应用生成的mask
             output= mask(inpd, fiber_mask)
 
-            # 保存结果
             if not os.path.exists(os.path.join(outfolder, f"Subject_idx_{subject_id}")):
                 os.makedirs(os.path.join(outfolder, f"Subject_idx_{subject_id}"))
             out_fname = os.path.join(outfolder, f"Subject_idx_{subject_id}", fname)
@@ -291,30 +278,21 @@ input_file_path = f"{infolder}/input_subjects.txt"
 output_file_path = f"{outfolder}/Subjects.txt"
 
 with open(input_file_path, "r") as infile, open(output_file_path, "w") as outfile:
-    # 读取第一行（标题行）
     header = infile.readline().strip().split('\t')
     
-    # 保留标题的前两列，并写入输出文件
     outfile.write(f"{header[0]}\t{header[1]}\n")
 
-    # 逐行处理输入文件（跳过标题行）
     for line in infile:
-        # 分割每行数据
         parts = line.strip().split('\t')
         
-        # 检查是否有足够的列
+
         if len(parts) >= 3:
-            # 1. 把Subject_idx减去1
             subject_idx = str(int(parts[0]) - 1)
             
-            # 2. 保留Subject_ID中的sub-xxxxxx部分
             # subject_id_parts = parts[1].split('_')
             # subject_id = subject_id_parts[0]
             subject_id = parts[1]
             
-            # 3. 删除filename这一列
-            # 4. 将修改后的结果写入输出文件
             outfile.write(f"{subject_idx}\t{subject_id}\n")
 
-# 打印任务完成消息
 print("DONE!")

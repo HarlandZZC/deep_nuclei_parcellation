@@ -4,17 +4,17 @@ import nibabel as nib
 import numpy as np
 import pandas as pd
 # conda activate DDSurfer 
-# python /home/haolin/Research/Segmentation/count_number_of_voxel.py --folder folder --outcsv csv --labels 18 54
+# python ./Segmentation/count_number_of_voxel.py --folder folder --outcsv csv --labels 18 54
 
-# 解析命令行参数
+
 parser = argparse.ArgumentParser()
-parser.add_argument('--folder', required=True, help='要处理的文件夹路径')
-parser.add_argument('--outcsv', required=True, help='要输出的csv路径')
+parser.add_argument('--folder', required=True)
+parser.add_argument('--outcsv', required=True)
 parser.add_argument('--labels', nargs='+', type=int)
 
 args = parser.parse_args()
 
-# 获取文件夹的路径
+
 folder = args.folder
 outcsv = args.outcsv
 labels = args.labels
@@ -28,7 +28,7 @@ for label in labels:
 
 subfolder_paths = [os.path.join(folder, f) for f in os.listdir(folder) if os.path.isdir(os.path.join(folder, f))]
 for subfolder_path in subfolder_paths:
-    subfolder_name = os.path.basename(subfolder_path)  # 获取子文件夹名称
+    subfolder_name = os.path.basename(subfolder_path) 
     print(f"----- Count number of voxels for {subfolder_name} -----") 
     ses_folders = [f for f in os.listdir(subfolder_path) if f.startswith('ses-') and os.path.isdir(os.path.join(subfolder_path, f))]
     

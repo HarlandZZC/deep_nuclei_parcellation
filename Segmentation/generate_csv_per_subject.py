@@ -4,7 +4,7 @@ import nibabel as nib
 import numpy as np
 import csv
 import re
-# python /home/haolin/Research/Segmentation/generate_csv_per_subject.py --refvolume refvolume.nii.gz --atlas_nifti_folder folder --label_concerned label --csv output.csv
+# python ./Segmentation/generate_csv_per_subject.py --refvolume refvolume.nii.gz --atlas_nifti_folder folder --label_concerned label --csv output.csv
 
 def generate_csv(refvolume, atlas_nifti_folder, label_concerned, csv_file):
     # Load the reference volume (refvolume)

@@ -5,17 +5,17 @@ import numpy as np
 import multiprocessing as mp
 import csv
 import argparse
-# python /home/haolin/Research/Segmentation/compute_S.py --infolder folder --incsv csv 
+# python ./Segmentation/compute_S.py --infolder folder --incsv csv 
 
 def compute_silhouette_coefficient(folder):
     results = []
-    # 遍历文件夹中的所有子文件夹
+
     for subdir in os.listdir(folder):
         if subdir.startswith('sub-'):
             print(f"processing {subdir}")
             file_path = os.path.join(folder, subdir, f'{subdir}_ses-1_run-1-DDSurfer-wmparc-mni-clustered.nii.gz')
             if os.path.exists(file_path):
-                # 读取nii.gz文件
+      
                 img = nib.load(file_path)
                 data = img.get_fdata()
                 
@@ -23,19 +23,19 @@ def compute_silhouette_coefficient(folder):
                 coordinates = []
                 sides = []
                 
-                # 创建一个空字典来存储数据
+           
                 data_dict = {}
 
-                # 在循环开始之前读取CSV文件
+      
                 with open(args.incsv) as f:
                     reader = csv.reader(f)
                     next(reader)
                     for row in reader:
-                        # 使用subdir和str_lst作为键，row[1]作为值
+                 
                         key = (row[0], row[3])
                         data_dict[key] = int(row[1])
 
-                # 在循环中查找字典
+   
                 for i in range(data.shape[0]):
                     for j in range(data.shape[1]):
                         for k in range(data.shape[2]):
@@ -98,7 +98,6 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    # 使用你的文件夹路径替换'your_folder_path'
     compute_silhouette_coefficient(args.infolder)
 
 

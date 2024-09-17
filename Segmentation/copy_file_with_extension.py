@@ -1,7 +1,7 @@
 import argparse
 import os
 import shutil
-# python /home/haolin/Research/Segmentation/copy_file_with_extension.py --source_dir folder1 --target_dir folder2 --extension 
+# python ./Segmentation/copy_file_with_extension.py --source_dir folder1 --target_dir folder2 --extension 
 
 def copy_files_with_extension(source_dir, target_dir, extension):
     if not os.path.exists(target_dir):

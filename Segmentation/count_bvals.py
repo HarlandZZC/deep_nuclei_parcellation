@@ -2,12 +2,11 @@ import os
 import argparse
 import csv
 from collections import Counter
-# python /home/haolin/Research/Segmentation/count_bvals.py --inputfolder folder --outputcsv csv
+# python ./Segmentation/count_bvals.py --inputfolder folder --outputcsv csv
 
 def process_bval_files(input_folder, output_csv):
     bval_counter = Counter()
 
-    # 遍历文件夹及子文件夹中的所有bval文件
     for root, dirs, files in os.walk(input_folder):
         for file_name in files:
             if file_name.lower().endswith('.bval'):
@@ -16,7 +15,6 @@ def process_bval_files(input_folder, output_csv):
                     bval_values = bval_file.read().split()
                     bval_counter.update(bval_values)
 
-    # 将统计结果写入输出CSV文件
     with open(output_csv, 'w', newline='') as out_file:
         csv_writer = csv.writer(out_file)
         csv_writer.writerow(["bvals", "counts"])

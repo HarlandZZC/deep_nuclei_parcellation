@@ -1,7 +1,7 @@
 import os
 import nibabel as nib
 import numpy as np
-# python /home/haolin/Research/Segmentation/generate_heatmap.py --folder folder
+# python ./Segmentation/generate_heatmap.py --folder folder
 
 def process_folder(folder):
     # 创建heatmap文件夹

@@ -5,7 +5,7 @@ from scipy.spatial.distance import euclidean
 import scipy.stats as stats
 import multiprocessing
 from multiprocessing import Pool, Manager
-# python /home/haolin/Research/Segmentation/smooth_the_dataset.py --in_csv csv1 --out_csv csv2 --num_workers 4
+# python ./Segmentation/smooth_the_dataset.py --in_csv csv1 --out_csv csv2 --num_workers 4
 
 def find_nearest_neighbor(voxel_coord, subject_data):
     nearest_neighbor = None
@@ -56,22 +56,17 @@ if __name__ == "__main__":
     df = pd.read_csv(in_csv)
     data_columns = df.columns[4:]
 
-    # 使用 Manager 创建一个共享的列表
     manager = Manager()
     result_list = manager.list()
 
-    # 使用 Pool 实现并行处理
     pool = Pool(processes=num_workers)
     args_list = [(index, row, df, data_columns, result_list) for index, row in df.iterrows()]
     pool.map(process_row, args_list)
     pool.close()
     pool.join()
 
-    # 将共享的列表转换为 DataFrame
     df_out = pd.DataFrame(list(result_list), columns=df.columns)
 
-    # 按照 voxel_id 排序
     df_out = df_out.sort_values(by='voxel_id')
 
-    # 将结果保存为 CSV 文件
     df_out.to_csv(out_csv, index=False)

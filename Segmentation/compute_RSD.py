@@ -2,7 +2,7 @@ import os
 import nibabel as nib
 import numpy as np
 import argparse
-# python /home/haolin/Research/Segmentation/compute_RSD.py --sitefolder folder1 --outfolder folder2 
+# python ./Segmentation/compute_RSD.py --sitefolder folder1 --outfolder folder2 
 
 
 def calculate_RSD(FA_values):

@@ -56,11 +56,11 @@ def Incorporate_ROI_surf_Info_fan(pd_tract, refvolume):
             ptidx_list[pidx] = ptidx
             
             if pidx < number_of_endpoints or pidx > line_length - number_of_endpoints - 1:
-                point = inpoints.GetPoint(ptidx) #找点坐标
-                point_ijk = apply_affine(numpy.linalg.inv(volume.affine), point) #坐标变换
+                point = inpoints.GetPoint(ptidx) 
+                point_ijk = apply_affine(numpy.linalg.inv(volume.affine), point) 
                 point_ijk = numpy.rint(point_ijk).astype(numpy.int32)
                 try:
-                    label = volume_data[(point_ijk[0], point_ijk[1], point_ijk[2])] #该点超出图像边界
+                    label = volume_data[(point_ijk[0], point_ijk[1], point_ijk[2])]
                 except:
                     label = 0
                     print('out point axis:', (point_ijk[0], point_ijk[1], point_ijk[2])) #print out surface
