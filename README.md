@@ -47,5 +47,3 @@ The steps for using this pipeline are as follows:
                     ├── sub-100408_ses-1_run-1_dwi.bvec
                     └── sub-100408_ses-1_run-1_dwi.nii.gz
     ```
-
-    We have also provided the `site_example` folder in the repository to help users learn how to organize the format and carry out subsequent data processing operations.
