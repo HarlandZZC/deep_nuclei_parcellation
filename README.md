@@ -12,38 +12,38 @@ The steps for using this pipeline are as follows:
     
     ```bash
     site_example
-        ├── sub-100307
-        │   └── ses-1
-        │       ├── anat
-        │       │   └── sub-100307_ses-1_T1w.nii.gz
-        │       └── dwi
-        │           ├── corrected_masked
-        │           │   ├── sub-100307_ses-1_run-1_dwi_BrainMask.nii.gz
-        │           │   ├── sub-100307_ses-1_run-1_dwi_extracted.bval
-        │           │   ├── sub-100307_ses-1_run-1_dwi_extracted-Bvalue5-0.bval
-        │           │   ├── sub-100307_ses-1_run-1_dwi_extracted-Bvalue5-0.bvec
-        │           │   ├── sub-100307_ses-1_run-1_dwi_extracted.bvec
-        │           │   ├── sub-100307_ses-1_run-1_dwi_extracted.nii.gz
-        │           │   ├── sub-100307_ses-1_run-1_QCed_bse-multi_BrainMask.nhdr
-        │           │   └── sub-100307_ses-1_run-1_QCed.nhdr
-        │           ├── sub-100307_ses-1_run-1_dwi.bval
-        │           ├── sub-100307_ses-1_run-1_dwi.bvec
-        │           └── sub-100307_ses-1_run-1_dwi.nii.gz
-        └── sub-100408
-            └── ses-1
-                ├── anat
-                │   └── sub-100408_ses-1_T1w.nii.gz
-                └── dwi
-                    ├── corrected_masked
-                    │   ├── sub-100408_ses-1_run-1_dwi_BrainMask.nii.gz
-                    │   ├── sub-100408_ses-1_run-1_dwi_extracted.bval
-                    │   ├── sub-100408_ses-1_run-1_dwi_extracted-Bvalue5-0.bval
-                    │   ├── sub-100408_ses-1_run-1_dwi_extracted-Bvalue5-0.bvec
-                    │   ├── sub-100408_ses-1_run-1_dwi_extracted.bvec
-                    │   ├── sub-100408_ses-1_run-1_dwi_extracted.nii.gz
-                    │   ├── sub-100408_ses-1_run-1_QCed_bse-multi_BrainMask.nhdr
-                    │   └── sub-100408_ses-1_run-1_QCed.nhdr
-                    ├── sub-100408_ses-1_run-1_dwi.bval
-                    ├── sub-100408_ses-1_run-1_dwi.bvec
-                    └── sub-100408_ses-1_run-1_dwi.nii.gz
+    ├── sub-100307
+    │   └── ses-1
+    │       ├── anat
+    │       │   └── sub-100307_ses-1_T1w.nii.gz
+    │       └── dwi
+    │           ├── corrected_masked
+    │           │   ├── sub-100307_ses-1_run-1_dwi_BrainMask.nii.gz
+    │           │   ├── sub-100307_ses-1_run-1_dwi_extracted.bval
+    │           │   ├── sub-100307_ses-1_run-1_dwi_extracted-Bvalue5-0.bval
+    │           │   ├── sub-100307_ses-1_run-1_dwi_extracted-Bvalue5-0.bvec
+    │           │   ├── sub-100307_ses-1_run-1_dwi_extracted.bvec
+    │           │   ├── sub-100307_ses-1_run-1_dwi_extracted.nii.gz
+    │           │   ├── sub-100307_ses-1_run-1_QCed_bse-multi_BrainMask.nhdr
+    │           │   └── sub-100307_ses-1_run-1_QCed.nhdr
+    │           ├── sub-100307_ses-1_run-1_dwi.bval
+    │           ├── sub-100307_ses-1_run-1_dwi.bvec
+    │           └── sub-100307_ses-1_run-1_dwi.nii.gz
+    └── sub-100408
+        └── ses-1
+            ├── anat
+            │   └── sub-100408_ses-1_T1w.nii.gz
+            └── dwi
+                ├── corrected_masked
+                │   ├── sub-100408_ses-1_run-1_dwi_BrainMask.nii.gz
+                │   ├── sub-100408_ses-1_run-1_dwi_extracted.bval
+                │   ├── sub-100408_ses-1_run-1_dwi_extracted-Bvalue5-0.bval
+                │   ├── sub-100408_ses-1_run-1_dwi_extracted-Bvalue5-0.bvec
+                │   ├── sub-100408_ses-1_run-1_dwi_extracted.bvec
+                │   ├── sub-100408_ses-1_run-1_dwi_extracted.nii.gz
+                │   ├── sub-100408_ses-1_run-1_QCed_bse-multi_BrainMask.nhdr
+                │   └── sub-100408_ses-1_run-1_QCed.nhdr
+                ├── sub-100408_ses-1_run-1_dwi.bval
+                ├── sub-100408_ses-1_run-1_dwi.bvec
+                └── sub-100408_ses-1_run-1_dwi.nii.gz
     ```
