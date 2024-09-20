@@ -8,7 +8,7 @@ DiffusionTensorScalarMeasurements="/data01/software/Slicer-5.2.2-linux-amd64/Sli
 BRAINSFit="/data01/software/Slicer-5.2.2-linux-amd64/Slicer --launch /data01/software/Slicer-5.2.2-linux-amd64/lib/Slicer-5.2/cli-modules/BRAINSFit"
 ResampleScalarVectorDWIVolume="/data01/software/Slicer-5.2.2-linux-amd64/Slicer --launch /data01/software/Slicer-5.2.2-linux-amd64/lib/Slicer-5.2/cli-modules/ResampleScalarVectorDWIVolume"
 
-atlas_T2=/home/haolin/Research/Segmentation/DDSurfer-main/100HCP-population-mean-T2-1mm.nii.gz
+atlas_T2=./DDParcel/100HCP-population-mean-T2-1mm.nii.gz
 
 # Parse command-line options
 while [[ $# -gt 0 ]]; do
@@ -110,16 +110,16 @@ nii_minEig_reg_norm=$outputdir/$subID-dti-MinEigenvalue-Reg-NormMasked.nii.gz
 nii_midEig_reg_norm=$outputdir/$subID-dti-MidEigenvalue-Reg-NormMasked.nii.gz
 
 if [ ! -f $nii_midEig_reg_norm ]; then
-	$1 python /home/haolin/Research/Segmentation/DDSurfer-main/normalize.py --input $nii_fa_reg --mask $nii_mask_reg --output $nii_fa_reg_norm --flip $flip
-	$1 python /home/haolin/Research/Segmentation/DDSurfer-main/normalize.py --input $nii_trace_reg --mask $nii_mask_reg --output $nii_trace_reg_norm --flip $flip
-	$1 python /home/haolin/Research/Segmentation/DDSurfer-main/normalize.py --input $nii_minEig_reg --mask $nii_mask_reg --output $nii_minEig_reg_norm --flip $flip
-	$1 python /home/haolin/Research/Segmentation/DDSurfer-main/normalize.py --input $nii_midEig_reg --mask $nii_mask_reg --output $nii_midEig_reg_norm --flip $flip
+	$1 python ./DDParcel/normalize.py --input $nii_fa_reg --mask $nii_mask_reg --output $nii_fa_reg_norm --flip $flip
+	$1 python ./DDParcel/normalize.py --input $nii_trace_reg --mask $nii_mask_reg --output $nii_trace_reg_norm --flip $flip
+	$1 python ./DDParcel/normalize.py --input $nii_minEig_reg --mask $nii_mask_reg --output $nii_minEig_reg_norm --flip $flip
+	$1 python ./DDParcel/normalize.py --input $nii_midEig_reg --mask $nii_mask_reg --output $nii_midEig_reg_norm --flip $flip
 fi
 
 # DDSurfer
 mgz_wmparc_reg=$outputdir/$subID-DDSurfer-wmparc-Reg.mgz
 if [ ! -f $mgz_wmparc_reg ]; then
-	$1 python /home/haolin/Research/Segmentation/DDSurfer-main/DDSurfer_Pred.py --in_dir $outputdir --out_dir $outputdir --weights_dir /home/haolin/Research/Segmentation/DDSurfer-main/weights/
+	$1 python ./DDSurfer-main/DDSurfer_Pred.py --in_dir $outputdir --out_dir $outputdir --weights_dir ./DDSurfer-main/weights/
 fi
 
 nii_wmparc=$outputdir/$subID-DDSurfer-wmparc.nii.gz
