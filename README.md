@@ -48,11 +48,11 @@ The steps for using this pipeline are as follows:
                 └── sub-100408_ses-1_run-1_dwi.nii.gz
     ```
 
-2. Nuclei Segmentation
+2. Nuclei segmentation
     
     We use **segmentation** to refer to delineating the entire nuclei and **parcellation** to refer to identifying its subdivisions. 
 
-    In this step, we used the **DDParcel**(as known as **DDSurfer**) technique to parcellate different brain regions based on each subject's DWI data. For more details on this technique, please refer to our previous work, [DDParcel: Deep Learning Anatomical Brain Parcellation From Diffusion MRI](https://ieeexplore.ieee.org/document/10314563).
+    In this step, we used the **DDParcel** (as known as **DDSurfer**) technique to parcellate different brain regions based on each subject's DWI data. For more details on this technique, please refer to our previous work, [DDParcel: Deep Learning Anatomical Brain Parcellation From Diffusion MRI](https://ieeexplore.ieee.org/document/10314563).
 
     To set the environment:
 
@@ -68,11 +68,41 @@ The steps for using this pipeline are as follows:
     
     To apply DDParcel, please run:
     ```bash
+    conda env create -f DDSurfer.yml
     conda activate DDSurfer
     python ./HCP_seg/process_site.py --folder site_folder --flip 1
     ```
 
     Note: Depending on how the brain mask is created, `--flip` option may need to be adjusted to make the mask and the DTI maps in the same space after loading the nifti files as numpy arrays. For most cases, `--flip 0` is used. For the HCP data with the provided brain mask, `--flip 1` is needed. To check this, visualize the `XXX-dti-FractionalAnisotropy-Reg-NormMasked.nii.gz` file in the output folder using Slicer or other software; if there is any orientation issue, change the setting of `--flip`.
 
+    Next, you can check `site_folder/sub-xxxxxx/ses-x/dwi/DDSurfer/sub-xxxxxx_ses-x_run-x/sub-xxxxxx_ses-x_run-x-DDSurfer-wmparc.nii.gz`. Its format is the same as the original DWI, but each voxel is labeled with the region number of the brain area it belongs to.
 
+3. Dilation of nuclei
 
+    First, you need to find the region number corresponding to the nuclei you want to parcellate. We strongly recommend loading `sub-xxxxxx_ses-x_run-x-DDSurfer-wmparc.nii.gz` into Slicer to locate this information. You might find two labels, corresponding to the left and right brain parts of the nuclei you are interested in. Let's assume they are labeled as `label1` and `label2`.
+
+    Then, you can run the nuclei dilation code:
+
+    ```bash
+    python ./HCP_seg/sequential_region_dilation_site.py --folder site_folder --num_workers 1 
+    ```
+
+    This will create `sub-xxxxxx_ses-x_run-x-DDSurfer-wmparc-SeqDilation.nii.gz` beside every `sub-xxxxxx_ses-x_run-x-DDSurfer-wmparc.nii.gz`. If your server has multiple CPU cores and supports multiprocessing, you can choose to set `num_workers` to a value greater than 1.
+
+4. Find the fibers passing through the nuclei
+
+    Next, you need to find all the fibers (also called streamlines) that pass through the nuclei. First, you should create a tractography folder to store the tractography data for all subjects. An example structure of a tractography_folder is as follows:
+
+    ```bash
+    tractography_folder_example
+    ├── 100307-ukftrack_b3000_fsmask_421a7ad_minGA0.06_minFA0.08_seedFALimit0.1.vtk
+    └── 100408-ukftrack_b3000_fsmask_421a7ad_minGA0.06_minFA0.08_seedFALimit0.1.vtk
+    ```
+
+    To find the passing streamlines, please run:
+    
+    ```bash
+    ./HCP_seg/wm_select_pass_fibers_forSeqDilation_site.py --SiteFolder site_folder_example --TractFolder tractography_folder_example --num_workers a_number
+    ```
+
+    This will create the folder `sub-xxxxxx/ses-x/dwi/selected_pass_fibers/sub-xxxxxx_ses-x_run-x/`. Inside the folder there are: `sub-xxxxxx_ses-x_run-x_pass_fibers-SeqDilation.vtk`.
