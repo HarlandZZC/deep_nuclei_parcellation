@@ -7,9 +7,9 @@ from multiprocessing.pool import ThreadPool
 # python ./HCP_seg/transform_vtk_file_forSeqDilation_site.py --SiteFolder folder1 --XfmFolder folder2 --num_workers 1
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--SiteFolder', required=True, help='要处理的文件夹路径')
-parser.add_argument('--XfmFolder', required=True, help='包含xfm的文件夹路径')
-parser.add_argument('--num_workers', default=4, type=int, help='Number of workers')  
+parser.add_argument('--SiteFolder', required=True)
+parser.add_argument('--XfmFolder', required=True)
+parser.add_argument('--num_workers', default=4, type=int)  
 args = parser.parse_args()
 
 SiteFolder = args.SiteFolder

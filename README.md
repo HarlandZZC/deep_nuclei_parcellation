@@ -11,7 +11,7 @@ The steps for using this pipeline are as follows:
     Before processing the data, it needs to be structured into a specific format. An example of the data organization format we have defined is as follows:
     
     ```bash
-    site_folder_example
+    site_folder_example/
     ├── sub-100307
     │   └── ses-1
     │       ├── anat
@@ -84,17 +84,17 @@ The steps for using this pipeline are as follows:
     Then, you can run the nuclei dilation code:
 
     ```bash
-    python ./HCP_seg/sequential_region_dilation_site.py --folder site_folder --num_workers 1 
+    python ./HCP_seg/sequential_region_dilation_site.py --folder site_folder_example --num_workers a_number 
     ```
 
     This will create `sub-xxxxxx_ses-x_run-x-DDSurfer-wmparc-SeqDilation.nii.gz` beside every `sub-xxxxxx_ses-x_run-x-DDSurfer-wmparc.nii.gz`. If your server has multiple CPU cores and supports multiprocessing, you can choose to set `num_workers` to a value greater than 1.
 
-4. Find the fibers passing through the nuclei
+4. Find the streamlines passing through the nuclei
 
     Next, you need to find all the fibers (also called streamlines) that pass through the nuclei. First, you should create a tractography folder to store the tractography data for all subjects. An example structure of a tractography_folder is as follows:
 
     ```bash
-    tractography_folder_example
+    tractography_folder_example/
     ├── 100307-ukftrack_b3000_fsmask_421a7ad_minGA0.06_minFA0.08_seedFALimit0.1.vtk
     └── 100408-ukftrack_b3000_fsmask_421a7ad_minGA0.06_minFA0.08_seedFALimit0.1.vtk
     ```
@@ -106,3 +106,22 @@ The steps for using this pipeline are as follows:
     ```
 
     This will create the folder `sub-xxxxxx/ses-x/dwi/selected_pass_fibers/sub-xxxxxx_ses-x_run-x/`. Inside the folder there are: `sub-xxxxxx_ses-x_run-x_pass_fibers-SeqDilation.vtk`.
+
+5. Register the pass streamlines to MNI space
+
+    Next, we need to register the identified pass streamlines to the standardized MNI space. This facilitates the unification of our subsequent analyses and allows us to compare our parcellation results with the standard atlases available online. To do this, you can run:
+
+    ```bash
+    ./HCP_seg/transform_vtk_file_forSeqDilation_site.py --SiteFolder site_folder_example --XfmFolder xfm_folder_example --num_workers a_number
+    ```
+
+    An example structure of a xfm_folder is as follows:
+
+    ```bash
+    xfm_folder_example/
+    ├── 100307_acpc_dc2standard_itk.nii.gz
+    └── 100408_acpc_dc2standard_itk.nii.gz
+    ```
+    This will create `sub-xxxxxx/ses-x/dwi/selected_pass_fibers/sub-xxxxxx_ses-x_run-x/sub-xxxxxx_ses-x_run-x_pass_fibers-SeqDilation-mni.vtk`. 
+
+
