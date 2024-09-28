@@ -68,7 +68,7 @@ The steps for using this pipeline are as follows:
     
     To apply DDParcel, please run:
     ```bash
-    conda env create -f DDSurfer.yml
+    conda env create -f DDSurfer.yaml
     conda activate DDSurfer
     python ./HCP_seg/process_site.py --folder site_folder --flip 1
     ```
@@ -124,4 +124,14 @@ The steps for using this pipeline are as follows:
     ```
     This will create `sub-xxxxxx/ses-x/dwi/selected_pass_fibers/sub-xxxxxx_ses-x_run-x/sub-xxxxxx_ses-x_run-x_pass_fibers-SeqDilation-mni.vtk`. 
 
+6. Register the `wmparc` files to MNI space
 
+    Similarly, we need to register each previously generated `sub-xxxxxx_ses-x_run-x-DDSurfer-wmparc.nii.gz` image to the MNI space. Please run:
+
+    ```bash
+    ./HCP_seg/transform_wmparc_file_forOrigin_site.py --folder folder  --num_workers a_number
+    ```
+
+    This will create `sub-xxxxxx_ses-x_run-x-DDSurfer-wmparc-mni.nii.gz`.
+
+7. Generated the atlas of pass streamlines
