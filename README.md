@@ -129,7 +129,7 @@ The steps for using this pipeline are as follows:
     Similarly, we need to register each previously generated `sub-xxxxxx_ses-x_run-x-DDSurfer-wmparc.nii.gz` image to the MNI space. Please run:
 
     ```bash
-    ./HCP_seg/transform_wmparc_file_forOrigin_site.py --folder folder  --num_workers a_number
+    ./HCP_seg/transform_wmparc_file_forOrigin_site.py --folder site_folder_example  --num_workers a_number
     ```
 
     This will create `sub-xxxxxx_ses-x_run-x-DDSurfer-wmparc-mni.nii.gz`.
