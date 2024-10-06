@@ -109,7 +109,7 @@ The steps for using this pipeline are as follows:
 
 5. Register the pass streamlines to MNI space
 
-    Next, we need to register the identified pass streamlines to the standardized MNI space. This facilitates the unification of our subsequent analyses and allows us to compare our parcellation results with the standard atlases available online. To do this, you can run:
+    Next, you need to register the identified pass streamlines to the standardized MNI space. This facilitates the unification of your subsequent analyses and allows you to compare your parcellation results with the standard atlases available online. To do this, you can run:
 
     ```bash
     ./HCP_seg/transform_vtk_file_forSeqDilation_site.py --SiteFolder site_folder_example --XfmFolder xfm_folder_example --num_workers a_number
@@ -126,7 +126,7 @@ The steps for using this pipeline are as follows:
 
 6. Register the `wmparc` files to MNI space
 
-    Similarly, we need to register each previously generated `sub-xxxxxx_ses-x_run-x-DDSurfer-wmparc.nii.gz` image to the MNI space. Please run:
+    Similarly, you need to register each previously generated `sub-xxxxxx_ses-x_run-x-DDSurfer-wmparc.nii.gz` image to the MNI space. Please run:
 
     ```bash
     ./HCP_seg/transform_wmparc_file_forOrigin_site.py --folder site_folder_example  --num_workers a_number
@@ -135,3 +135,24 @@ The steps for using this pipeline are as follows:
     This will create `sub-xxxxxx_ses-x_run-x-DDSurfer-wmparc-mni.nii.gz`.
 
 7. Generated the atlas of pass streamlines
+
+    Next, you need to gather the pass streamlines from all subjects, construct an atlas, and at the same time, divide each subject's pass streamlines into several streamline clusters.
+
+    First, you need to collect each subject's pass streamlines together and place them in a specified folder for easier subsequent operations:
+
+    ```bash
+    .Segmentation/copy_file_with_extension.py --source_dir site_folder_example --target_dir streamlines_for_atlas_folder_example --extension pass_fibers-SeqDilation-mni.vtk
+    ```
+
+    This will copy all of the pass streamlines files into `streamlines_folder_example`. 
+
+    Then, you can create the atlas by:
+
+    ```bash
+    python ./Segmentation/create_atlas.py --infolder streamlines_folder_example --outfolder atlas_folder_example --num_fibers f --num_clusters k --num_workers a_number
+    ```
+
+    `f` represents how many streamlines are taken from each subject to construct the atlas, and `k` represents how many streamline clusters the final atlas will contain. This will call the built-in `wm_cluster_atlas.py` in 3D Slicer, and eventually generate a folder named `atlas_f{f}_k{k}` in `atlas_folder_example`, which contains the fiber clusters obtained from different iterations. For more information of wm_cluster_atlas.py`, please refer to [Slicer's repo](https://github.com/SlicerDMRI/whitematteranalysis/blob/master/bin/wm_cluster_from_atlas.py).
+
+
+
