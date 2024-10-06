@@ -102,7 +102,7 @@ The steps for using this pipeline are as follows:
     To find the passing streamlines, please run:
     
     ```bash
-    ./HCP_seg/wm_select_pass_fibers_forSeqDilation_site.py --SiteFolder site_folder_example --TractFolder tractography_folder_example --num_workers a_number
+    python ./HCP_seg/wm_select_pass_fibers_forSeqDilation_site.py --SiteFolder site_folder_example --TractFolder tractography_folder_example --num_workers a_number
     ```
 
     This will create the folder `sub-xxxxxx/ses-x/dwi/selected_pass_fibers/sub-xxxxxx_ses-x_run-x/`. Inside the folder there are: `sub-xxxxxx_ses-x_run-x_pass_fibers-SeqDilation.vtk`.
@@ -112,7 +112,7 @@ The steps for using this pipeline are as follows:
     Next, you need to register the identified pass streamlines to the standardized MNI space. This facilitates the unification of your subsequent analyses and allows you to compare your parcellation results with the standard atlases available online. To do this, you can run:
 
     ```bash
-    ./HCP_seg/transform_vtk_file_forSeqDilation_site.py --SiteFolder site_folder_example --XfmFolder xfm_folder_example --num_workers a_number
+    python ./HCP_seg/transform_vtk_file_forSeqDilation_site.py --SiteFolder site_folder_example --XfmFolder xfm_folder_example --num_workers a_number
     ```
 
     An example structure of a xfm_folder is as follows:
@@ -129,7 +129,7 @@ The steps for using this pipeline are as follows:
     Similarly, you need to register each previously generated `sub-xxxxxx_ses-x_run-x-DDSurfer-wmparc.nii.gz` image to the MNI space. Please run:
 
     ```bash
-    ./HCP_seg/transform_wmparc_file_forOrigin_site.py --folder site_folder_example  --num_workers a_number
+    python ./HCP_seg/transform_wmparc_file_forOrigin_site.py --folder site_folder_example  --num_workers a_number
     ```
 
     This will create `sub-xxxxxx_ses-x_run-x-DDSurfer-wmparc-mni.nii.gz`.
