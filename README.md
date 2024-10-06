@@ -141,7 +141,7 @@ The steps for using this pipeline are as follows:
     First, you need to collect each subject's pass streamlines together and place them in a specified folder for easier subsequent operations:
 
     ```bash
-    .Segmentation/copy_file_with_extension.py --source_dir site_folder_example --target_dir streamlines_for_atlas_folder_example --extension pass_fibers-SeqDilation-mni.vtk
+    python .Segmentation/copy_file_with_extension.py --source_dir site_folder_example --target_dir streamlines_for_atlas_folder_example --extension pass_fibers-SeqDilation-mni.vtk
     ```
 
     This will copy all of the pass streamlines files into `streamlines_folder_example`. 
