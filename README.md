@@ -134,7 +134,7 @@ The steps for using this pipeline are as follows:
 
     This will create `sub-xxxxxx_ses-x_run-x-DDSurfer-wmparc-mni.nii.gz`.
 
-7. Generated the atlas of pass streamlines
+7. Generate the atlas of pass streamlines
 
     Next, you need to gather the pass streamlines from all subjects, construct an atlas, and at the same time, divide each subject's pass streamlines into several streamline clusters.
 
@@ -154,5 +154,51 @@ The steps for using this pipeline are as follows:
 
     `f` represents how many streamlines are taken from each subject to construct the atlas, and `k` represents how many streamline clusters the final atlas will contain. This will call the built-in `wm_cluster_atlas.py` in 3D Slicer, and eventually generate a folder named `atlas_f{f}_k{k}` in `atlas_folder_example`, which contains the fiber clusters obtained from different iterations. For more information of wm_cluster_atlas.py`, please refer to [Slicer's repo](https://github.com/SlicerDMRI/whitematteranalysis/blob/master/bin/wm_cluster_from_atlas.py).
 
+8. Choose an atlas to split
 
+    Now, you need to select an atlas folder and split the components of each steamline cluster within this atlas that belong to each subject:
+
+    ```bash
+    python ./Segmentation/split_atlas.py --infolder atlas_folder --outfolder split_atlas_folder
+    ```
+
+    The format of the `atlas_folder` is approximately as follows:
+
+    ```bash
+    atlas_folder
+    ├── atlas.p
+    ├── atlas.vtp
+    ├── cluster_00001.vtp
+    ├── cluster_00002.vtp
+    ├── cluster_00003.vtp
+    ├── cluster_00004.vtp
+    ├── cluster_00005.vtp
+    ├── cluster_00006.vtp
+    ├── cluster_00007.vtp
+    ├── cluster_00008.vtp
+    ├── cluster_00009.vtp
+    ├── ...
+    ```
+
+    The format of `split_atlas_folder` is approximately as follows:
+
+    ```bash
+    split_atlas_folder
+    ├── Subject_idx_0
+    ├── Subject_idx_1
+    ├── Subject_idx_2
+    ├── Subject_idx_3
+    ├── ...
+    ├── Subjects.txt
+    ```
+9. Map the split results back to the site folder
+
+    You have obtained the streamline clusters for each subject. For standardized processing, you need to map these streamline clusters back to the previous `site_folder_example`:
+
+    ```bash
+    python ./Segmentation/map_split_atlas_back_to_subjects.py  --atlas_folder split_atlas_folder --subject_folder site_folder_example --f f --k k --iteration iter
+    ```
+    This will map the streamline clusters of the corresponding,`f`, `k`, `iteration` back to the site folder, creating `site_folder_example/sub-xxxxxx/ses-x/dwi/atlas_split/sub-xxxxxx_ses-x_run-x/atlas_f{f}_k{k}_iteration{iter}`.
+
+10. Transform tractography to volume
 

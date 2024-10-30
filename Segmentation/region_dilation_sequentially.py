@@ -61,5 +61,5 @@ for label in args.labels:
 
 nib.Nifti1Image(dilated_data, img.affine).to_filename(args.out_file)
          
-         
+
 print('Dilated labels saved to:', args.out_file)
