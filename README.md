@@ -171,12 +171,6 @@ The steps for using this pipeline are as follows:
     ├── cluster_00001.vtp
     ├── cluster_00002.vtp
     ├── cluster_00003.vtp
-    ├── cluster_00004.vtp
-    ├── cluster_00005.vtp
-    ├── cluster_00006.vtp
-    ├── cluster_00007.vtp
-    ├── cluster_00008.vtp
-    ├── cluster_00009.vtp
     ├── ...
     ```
 
@@ -186,8 +180,6 @@ The steps for using this pipeline are as follows:
     split_atlas_folder
     ├── Subject_idx_0
     ├── Subject_idx_1
-    ├── Subject_idx_2
-    ├── Subject_idx_3
     ├── ...
     ├── Subjects.txt
     ```
@@ -202,7 +194,7 @@ The steps for using this pipeline are as follows:
 
 10. Transform tractography to volume
     
-    Next, you need to construct a set of NIfTI files for each subject, with the same size as their original DWI. In each NIfTI file, the value stored in each voxel represents the number of times this voxel is traversed by streamlines from a specific cluster. To do this, you need to run:
+    Next, you need to construct a set of Nifti files for each subject, with the same size as their original DWI. In each NIfTI file, the value stored in each voxel represents the number of times this voxel is traversed by streamlines from a specific cluster. To do this, you need to run:
 
     ```bash
     python ./HCP_seg/wm_tract_to_volume_site.py --folder site_folder_example --f f --k k --iteration iter --num_workers a_number
