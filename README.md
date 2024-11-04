@@ -194,7 +194,7 @@ The steps for using this pipeline are as follows:
 
 10. Transform tractography to volume
     
-    Next, you need to construct a set of Nifti files for each subject, with the same size as their original DWI. In each NIfTI file, the value stored in each voxel represents the number of times this voxel is traversed by streamlines from a specific cluster. To do this, you need to run:
+    Next, you need to construct a set of NIFTI files for each subject, with the same size as their original DWI. In each NIfTI file, the value stored in each voxel represents the number of times this voxel is traversed by streamlines from a specific cluster. To do this, you need to run:
 
     ```bash
     python ./HCP_seg/wm_tract_to_volume_site.py --folder site_folder_example --f f --k k --iteration iter --num_workers a_number
@@ -210,4 +210,39 @@ The steps for using this pipeline are as follows:
     ├── ...
     ```
 
-11. 
+11. Generate CSV files for each subject
+
+    Next, by combining `sub-xxxxxx_ses-x_run-x-DDSurfer-wmparc-mni.nii.gz` and `site_folder_example/sub-xxxxxx/ses-x/dwi/WMtract2vol`, you can now calculate the traversal of each specific nucleus (the ones you previously selected for dilation) by each streamline cluster for each subject. Generate a subject-specific CSV file to record these traversal instances:
+
+    ```bash
+    python ./HCP_seg/generate_csv_for_site.py --folder ite_folder_example --f f --k k --iteration iter --labels label1 label2 ...
+    ```
+
+    This will create `/data02/DWIsegmentation/Data/HCP100_image_amygdala/sub-xxxxxx/ses-x/dwi/csv_for_segmentation/sub-xxxxxx_ses-x_run-x/atlas_f{f}_k{k}_iteration{iter}/`:
+
+    ```bash
+    atlas_f{f}_k{k}_iteration{iter}
+    ├── label{label1}.csv
+    ├── label{label2}.csv
+    ├── ...
+    ```
+12. Combine the CSV files of multiple subjects into one
+
+    For each nucleus, you need to combine the CSV files from all subjects related to it into a single CSV file:
+
+    ```bash
+    python ./append_csv_for_segmentation.py --infolder site_folder_example --outfolder outfolder --f f --k k --iteration iter --labels label1 label2 ...
+    ```
+
+    This will create `outfolder/f{f}_k{k}_iteration{iter}_label{label1}_append.csv`, `outfolder/f{f}_k{k}_iteration{iter}_label{label2}_append.csv`, `...`. 
+    
+13. Merge and Tune CSV of Different Labels
+
+    In the DDSurfer labeling scheme, the left and right parts of the same nucleus are assigned different labels. For instance, the left and right amygdala labels are 18 and 54, respectively. So, assuming you have obtained `f{f}_k{k}_iteration{iter}_label{18}_append.csv` and `f{f}_k{k}_iteration{iter}_label{54}_append.csv`, you may also choose to merge these two CSV files into one. You can run: 
+
+    ```bash
+    python ./Segmentation/merge_and_tune_csv_of_different_labels.py --infolder infolder --outfolder outfolder --f f --k k --iteration iter --labels label1 label2 ... --binarization 1
+    ```
+    Two variables need to be highlighted. The first is `--infolder`, which should be the `--outfolder` from step 12. The second variable is `--binarization`. As mentioned earlier, each voxel stores the number of times it is traversed by a cluster, with this value ranging from 0 to infinity. If `--binarization 1` is selected, the program will binarize this value to 0 or 1 during merging, recording only whether the voxel has been traversed by a cluster. This enhances data generalizability, and we recommend this approach.
+
+    This will create `outfolder/f{f}_k{k}_iteration{iter}_label{label1}_{label2}_{...}_append_binary.csv`(if you choose `--binarization 1`) or `outfolder/f{f}_k{k}_iteration{iter}_label{label1}_{label2}_{...}_append.csv`(if you choose`--binarization 0`).
