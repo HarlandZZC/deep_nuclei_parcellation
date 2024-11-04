@@ -201,6 +201,7 @@ The steps for using this pipeline are as follows:
     This will map the streamline clusters of the corresponding,`f`, `k`, `iteration` back to the site folder, creating `site_folder_example/sub-xxxxxx/ses-x/dwi/atlas_split/sub-xxxxxx_ses-x_run-x/atlas_f{f}_k{k}_iteration{iter}`.
 
 10. Transform tractography to volume
+    
     Next, you need to construct a set of NIfTI files for each subject, with the same size as their original DWI. In each NIfTI file, the value stored in each voxel represents the number of times this voxel is traversed by streamlines from a specific cluster. To do this, you need to run:
 
     ```bash
