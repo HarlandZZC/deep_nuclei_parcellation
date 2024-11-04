@@ -141,7 +141,7 @@ The steps for using this pipeline are as follows:
     First, you need to collect each subject's pass streamlines together and place them in a specified folder for easier subsequent operations:
 
     ```bash
-    python .Segmentation/copy_file_with_extension.py --source_dir site_folder_example --target_dir streamlines_for_atlas_folder_example --extension pass_fibers-SeqDilation-mni.vtk
+    python ./Segmentation/copy_file_with_extension.py --source_dir site_folder_example --target_dir streamlines_for_atlas_folder_example --extension pass_fibers-SeqDilation-mni.vtk
     ```
 
     This will copy all of the pass streamlines files into `streamlines_folder_example`. 
@@ -201,4 +201,20 @@ The steps for using this pipeline are as follows:
     This will map the streamline clusters of the corresponding,`f`, `k`, `iteration` back to the site folder, creating `site_folder_example/sub-xxxxxx/ses-x/dwi/atlas_split/sub-xxxxxx_ses-x_run-x/atlas_f{f}_k{k}_iteration{iter}`.
 
 10. Transform tractography to volume
+    Next, you need to construct a set of NIfTI files for each subject, with the same size as their original DWI. In each NIfTI file, the value stored in each voxel represents the number of times this voxel is traversed by streamlines from a specific cluster. To do this, you need to run:
 
+    ```bash
+    python ./HCP_seg/wm_tract_to_volume_site.py --folder site_folder_example --f f --k k --iteration iter --num_workers a_number
+    ```
+
+    This will create `site_folder_example/sub-xxxxxx/ses-x/dwi/WMtract2vol/sub-xxxxxx_ses-x_run-x/atlas_f{f}_k{k}_iteration{iter}`:
+
+    ```bash
+    atlas_f{f}_k{k}_iteration{iter}/
+    ├── cluster_00001.nii.gz
+    ├── cluster_00002.nii.gz
+    ├── cluster_00003.nii.gz
+    ├── ...
+    ```
+
+11. 
