@@ -203,7 +203,7 @@ The steps for using this pipeline are as follows:
     This will create `site_folder_example/sub-xxxxxx/ses-x/dwi/WMtract2vol/sub-xxxxxx_ses-x_run-x/atlas_f{f}_k{k}_iteration{iter}`:
 
     ```bash
-    atlas_f{f}_k{k}_iteration{iter}/
+    atlas_f{f}_k{k}_iteration{iter}
     ├── cluster_00001.nii.gz
     ├── cluster_00002.nii.gz
     ├── cluster_00003.nii.gz
@@ -236,7 +236,7 @@ The steps for using this pipeline are as follows:
 
     This will create `outfolder/f{f}_k{k}_iteration{iter}_label{label1}_append.csv`, `outfolder/f{f}_k{k}_iteration{iter}_label{label2}_append.csv`, `...`. 
     
-13. Merge and Tune CSV of Different Labels
+13. Merge and tune CSV of different labels
 
     In the DDSurfer labeling scheme, the left and right parts of the same nucleus are assigned different labels. For instance, the left and right amygdala labels are 18 and 54, respectively. So, assuming you have obtained `f{f}_k{k}_iteration{iter}_label{18}_append.csv` and `f{f}_k{k}_iteration{iter}_label{54}_append.csv`, you may also choose to merge these two CSV files into one. You can run: 
 
