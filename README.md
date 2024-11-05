@@ -231,7 +231,7 @@ The steps for using this pipeline are as follows:
     For each nucleus, you need to combine the CSV files from all subjects related to it into a single CSV file:
 
     ```bash
-    python ./append_csv_for_segmentation.py --infolder site_folder_example --outfolder outfolder --f f --k k --iteration iter --labels label1 label2 ...
+    python .HCP_seg/append_csv_for_segmentation.py --infolder site_folder_example --outfolder outfolder --f f --k k --iteration iter --labels label1 label2 ...
     ```
 
     This will create `outfolder/f{f}_k{k}_iteration{iter}_label{label1}_append.csv`, `outfolder/f{f}_k{k}_iteration{iter}_label{label2}_append.csv`, `...`. 
@@ -246,3 +246,14 @@ The steps for using this pipeline are as follows:
     Two variables need to be highlighted. The first is `--infolder`, which should be the `--outfolder` from step 12. The second variable is `--binarization`. As mentioned earlier, each voxel stores the number of times it is traversed by a cluster, with this value ranging from 0 to infinity. If `--binarization 1` is selected, the program will binarize this value to 0 or 1 during merging, recording only whether the voxel has been traversed by a cluster. This enhances data generalizability, and we recommend this approach.
 
     This will create `outfolder/f{f}_k{k}_iteration{iter}_label{label1}_{label2}_{...}_append_binary.csv`(if you choose `--binarization 1`) or `outfolder/f{f}_k{k}_iteration{iter}_label{label1}_{label2}_{...}_append.csv`(if you choose`--binarization 0`).
+
+14. Gaussian smoothing
+
+    Next, you may choose to use Gaussian smoothing techniques to refine the CSV data. For detailed technical information, please refer to our paper. To do this, please run:
+
+    ```bash
+    python ./Segmentation/smooth_the_dataset.py --in_csv in.csv --out_csv out.csv --num_workers a_number
+    ```
+
+    You can choose `outfolder/f{f}_k{k}_iteration{iter}_label{label1}_{label2}_{...}_append_binary.csv` in step 13 as `--in_csv`. Increasing the value of `--num_workers` will accelerate the smoothing process. In the code, the default settings are `mean = 1` and `std_dev = 1`, which enables both the cluster dilation and smoothing functions described in the paper. You can also choose to customize these settings.
+    
