@@ -48,7 +48,7 @@ The steps for using this pipeline are as follows:
                 └── sub-100408_ses-1_run-1_dwi.nii.gz
     ```
 
-    To help you practice the entire process, we have provided a minimal `site_folder_example` containing two subjects in the release.
+    To help you practice the entire process, we have provided a minimal `site_folder_example` containing two subjects in the releases.
 
 2. Nuclei segmentation
     
@@ -283,3 +283,5 @@ The steps for using this pipeline are as follows:
     ```
 
     This code will generate NIFTI files containing the visualized parcellation results for each subject, based on the original images in your `site_folder_example` and the parcellation results in `./Model/output/test_results.csv`. Each voxel in these NIFTI files will store the parcel number to which it belongs.
+
+16. Evaluate the results
