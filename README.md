@@ -48,8 +48,6 @@ The steps for using this pipeline are as follows:
                 └── sub-100408_ses-1_run-1_dwi.nii.gz
     ```
 
-    To help you practice the entire process, we have provided a minimal `site_folder_example` containing two subjects in the releases.
-
 2. Nuclei segmentation
     
     We use **segmentation** to refer to delineating the entire nuclei and **parcellation** to refer to identifying its subdivisions. 
