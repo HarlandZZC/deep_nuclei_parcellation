@@ -48,6 +48,8 @@ The steps for using this pipeline are as follows:
                 └── sub-100408_ses-1_run-1_dwi.nii.gz
     ```
 
+    To help you practice the entire process, we have provided a minimal `site_folder_example` containing two subjects in the release.
+
 2. Nuclei segmentation
     
     We use **segmentation** to refer to delineating the entire nuclei and **parcellation** to refer to identifying its subdivisions. 
@@ -256,4 +258,28 @@ The steps for using this pipeline are as follows:
     ```
 
     You can choose `outfolder/f{f}_k{k}_iteration{iter}_label{label1}_{label2}_{...}_append_binary.csv` in step 13 as `--in_csv`. Increasing the value of `--num_workers` will accelerate the smoothing process. In the code, the default settings are `mean = 1` and `std_dev = 1`, which enables both the cluster dilation and smoothing functions described in the paper. You can also choose to customize these settings.
-    
+
+15. Training the model and visualize the parcellation
+
+    Now, you can finally start training the model! First, you need to adjust the hyperparameters in `Model/HCP.py` (lines 117-170). The key parameters to focus on are `--infolder` and `--csv`. If you have successfully completed all the previous steps, your `--infolder` should be the `outfolder` from step 14, and `--csv` should be `f{f}_k{k}_iteration{iter}_label{label1}_{label2}_{...}_append_binary.csv`.
+
+    Next, you need to configure the environment:
+
+    ```bash
+    conda env create -f dwi_seg.yaml
+    conda activate dwi_seg
+    ```
+
+    Then, you can start to train the model:
+
+    ```bash
+    python ./Model/HCP.py
+    ```
+
+    According to the default settings, the output parcellation results should be stored in `./Model/output`. After training, you can visualize the result of your parcellation by running:
+
+    ```bash
+    python ./Model/visualize_clustering_results.py ----subject_folder site_folder_example
+    ```
+
+    This code will generate NIFTI files containing the visualized parcellation results for each subject, based on the original images in your `site_folder_example` and the parcellation results in `./Model/output/test_results.csv`. Each voxel in these NIFTI files will store the parcel number to which it belongs.
