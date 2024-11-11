@@ -65,7 +65,7 @@ def create_train_test_loaders(args):
 
 
 def trainer(args, model, train_loader):
-    pretrain_rec_loss_list = model.pretrain(train_loader, args.pre_epoch)
+    pretrain_rec_loss_list = model.pretrain(train_loader, args.pre_epoch) 
     rec_loss_list = []
     dist_loss_list = []
     combined_loss_list = []

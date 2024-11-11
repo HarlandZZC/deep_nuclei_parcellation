@@ -1,13 +1,44 @@
 import os
 import nibabel as nib  
 from sklearn.metrics import calinski_harabasz_score
+from scipy.ndimage import label, generate_binary_structure, find_objects
 import numpy as np
 import multiprocessing as mp
 import csv
 import argparse
-# python./Segmentation/compute_C.py --infolder folder --incsv csv 
+# python ./Model/compute_SC.py --incsv csv --labels --infolder folder
 
-def compute_calinski_harabasz_score(folder):
+
+def compute_agglomeration(coordinates, labels):
+    unique_labels = np.unique(labels)
+
+    total_voxels = len(coordinates)
+    max_agglomeration = 0
+
+    for label_value in unique_labels:
+        label_indices = np.where(labels == label_value)[0]
+        label_coordinates = coordinates[label_indices]
+
+        # Create a binary mask with ones at label coordinates
+        binary_mask = np.zeros(coordinates.max(axis=0) + 1, dtype=bool)
+        binary_mask[tuple(label_coordinates.T)] = 1
+
+        # Label connected components in the binary mask
+        structure = generate_binary_structure(3, 1)
+        labeled_array, num_features = label(binary_mask, structure=structure)
+
+        max_agglomeration_for_label = 0
+
+        for i in range(1, num_features + 1):
+            cluster_size = np.sum(labeled_array == i)
+            max_agglomeration_for_label = max(max_agglomeration_for_label, cluster_size)
+
+        max_agglomeration += max_agglomeration_for_label
+
+    agglomeration_ratio = max_agglomeration / total_voxels
+    return agglomeration_ratio
+
+def compute_agglomeration_ratio(folder, label_values):
     results = []
 
     for subdir in os.listdir(folder):
@@ -15,7 +46,6 @@ def compute_calinski_harabasz_score(folder):
             print(f"processing {subdir}")
             file_path = os.path.join(folder, subdir, f'{subdir}_ses-1_run-1-DDSurfer-wmparc-mni-clustered.nii.gz')
             if os.path.exists(file_path):
-
                 img = nib.load(file_path)
                 data = img.get_fdata()
                 
@@ -23,18 +53,14 @@ def compute_calinski_harabasz_score(folder):
                 coordinates = []
                 sides = []
                 
-      
                 data_dict = {}
 
-     
                 with open(args.incsv) as f:
                     reader = csv.reader(f)
                     next(reader)
                     for row in reader:
-
                         key = (row[0], row[3])
                         data_dict[key] = int(row[1])
-
 
                 for i in range(data.shape[0]):
                     for j in range(data.shape[1]):
@@ -50,56 +76,38 @@ def compute_calinski_harabasz_score(folder):
                 sides = np.array(sides)
                 coordinates = np.array(coordinates)
                 labels = np.array(labels)
-                idx18 = (sides == 18) 
-                idx54 = (sides == 54)
-                # print(len(labels))
-                # print(len(coordinates))
-                # print(len(sides))
+                
+                scores = []
+                for label_value in label_values:
+                    idx = (sides == label_value)
+                    score = compute_agglomeration(coordinates[idx], labels[idx])
+                    print(f'agglomeration_ratio for {subdir} label {label_value}: {score}')
+                    result = {'subdir': subdir, 'label': label_value, 'score': score}
+                    results.append(result)
 
-                # print(len(labels[idx18]))
-                # print(len(coordinates[idx18]))
-
-                score18 = calinski_harabasz_score(coordinates[idx18], labels[idx18])
-                print(f'calinski_harabasz_score for {subdir} label 18: {score18}')
-                score54 = calinski_harabasz_score(coordinates[idx54], labels[idx54])
-                print(f'calinski_harabasz_score for {subdir} label 54: {score54}')
-
-                result1 = {'subdir': subdir, 'label': 18, 'score': score18}
-
-                result2 = {'subdir': subdir, 'label': 54, 'score': score54}
-                results.extend([result1, result2])
-
-    # Write results to CSV file
-    with open(os.path.join(args.infolder, 'C.csv'), 'w') as f:
+    with open(os.path.join(args.infolder, 'A.csv'), 'w') as f:
         writer = csv.DictWriter(f, fieldnames=['subdir', 'label', 'score'])
         writer.writeheader()
         
         for result in results:
             writer.writerow(result)
            
-        # Calculate summary statistics
         scores = [r['score'] for r in results]
         mean_score = np.mean(scores)
         max_score = np.max(scores)
         min_score = np.min(scores)
 
-        # Write summary rows
         writer.writerow({'subdir': 'mean', 'label': '', 'score': mean_score})
         writer.writerow({'subdir': 'max', 'label': '', 'score': max_score})
         writer.writerow({'subdir': 'min', 'label': '', 'score': min_score})
 
-
 if __name__ == "__main__":
-    import argparse
-
-    parser = argparse.ArgumentParser(description="Compute C")
+    parser = argparse.ArgumentParser(description="Compute SC")
     parser.add_argument("--infolder", type=str, help="infolder")
-    parser.add_argument("--incsv", type=str, help="incsv", default= "/data02/AmygdalaSeg/Processing/HCP100/f9000_k150_iteration2_label18_54_append_binary.csv")
+    parser.add_argument("--incsv", type=str, help="incsv", default="path_to_csv")
+    parser.add_argument("--labels", nargs='+', type=int, help="label values to compute agglomeration ratio", required=True)
 
     args = parser.parse_args()
 
-
-    compute_calinski_harabasz_score(args.infolder)
-
-
+    compute_agglomeration_ratio(args.infolder, args.labels)
 

@@ -71,11 +71,12 @@ class batch_KMeans(object):
         # model = KMeans(n_clusters=self.n_clusters,
         #                n_init= int(self.n_clusters ** self.n_clusters / math.factorial(self.n_clusters)), max_iter=50)
         model = KMeans(n_clusters=self.n_clusters,
-                       n_init=1000, max_iter=50)
+                       n_init=1000, max_iter=50, random_state=42)
+                       
         # print(self.n_clusters ** self.n_clusters)
         # print(math.factorial(self.n_clusters))
         # print(int(self.n_clusters ** self.n_clusters / math.factorial(self.n_clusters)))
-        model.fit(X)
+        model.fit(X)  
         self.clusters = model.cluster_centers_  # copy clusters
 
 

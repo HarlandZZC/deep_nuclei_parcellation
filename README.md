@@ -283,3 +283,24 @@ The steps for using this pipeline are as follows:
     This code will generate NIFTI files containing the visualized parcellation results for each subject, based on the original images in your `site_folder_example` and the parcellation results in `./Model/output/test_results.csv`. Each voxel in these NIFTI files will store the parcel number to which it belongs.
 
 16. Evaluate the results
+
+    After obtaining the output results, you can use the provided code to evaluate the segmentation performance:
+
+    To compute the Dice score, you can run:
+
+    ```bash
+    python ./Model/compute_dice.py --folder ./Model/output --n_clusters number_of_clusters
+    ```
+
+    To compute the Spatial Continuity, you can run:
+
+    ```bash
+    python ./Model/compute_SC.py --incsv f{f}_k{k}_iteration{iter}_label{label1}_{label2}_{...}_append_binary.csv --labels label1 label2 ... --infolder ./Model/output
+    ```
+
+    To compute Parcel Size Coherence, you can run:
+
+    ```bash
+    python ./Model/cluster_statistics.py --infolder ./Model/output
+    ```
+    

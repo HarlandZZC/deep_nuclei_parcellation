@@ -171,7 +171,7 @@ class DCN(nn.Module):
             data = data.to(self.device).view(batch_size, -1)
             latent_X = self.autoencoder(data, latent=True)
             batch_X.append(latent_X.detach().cpu().numpy())
-        batch_X = np.vstack(batch_X)
+        batch_X = np.vstack(batch_X) 
         self.kmeans.init_cluster(batch_X)
 
         return pretrain_rec_loss_list
@@ -259,8 +259,9 @@ class DCN(nn.Module):
                 # Check if any cluster has fewer points than the threshold
                 if elem_count[k] <= min_points_threshold:
                     print(f"averaging cluster {k}...")
-                    # Calculate the average of candidate clusters
-                    self.kmeans.clusters[k] = avg_cluster + np.random.uniform(0, 0.01, size=avg_cluster.shape)
+                    # Calculate the average of candidate clusters 
+                    random_value = np.random.uniform(0, 0.01, size=avg_cluster.shape) 
+                    self.kmeans.clusters[k] = avg_cluster + random_value
                     # update_flag = 0
                 # elif elem_count[k] <= min_points_threshold and update_flag == 0:
                 #     print(f"averaging cluster {k}...")
