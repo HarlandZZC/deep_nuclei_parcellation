@@ -2,13 +2,15 @@
 
 This is a pipeline that uses deep learning techniques to parcel brain nuclei based on tractography. It includes the entire process from dataset construction to nuclei parcellation and performance evaluation. In theory, it can be used to parcel any nuclear structures in the brain. 
 
-Our paper [A Novel Deep Clustering Framework for Fine-Scale Parcellation of Amygdala Using DMRI Tractography](https://ieeexplore.ieee.org/document/10635363) has already been published in **ISBI2024**, demonstrating the effectiveness of this pipeline in amygdala parcellation.
+Our paper [DeepNuParc: A novel deep clustering framework for fine-scale parcellation of brain nuclei using diffusion MRI tractography](https://www.sciencedirect.com/science/article/pii/S1053811925004240) has already been published in **NeuroImage**, demonstrating the effectiveness of this pipeline in brain nuclei parcellation.
+
+The example data organization and subject split files provided in this repository are based on the Human Connectome Project Young Adult S1200 release (`HCP-YA S1200`).
 
 The steps for using this pipeline are as follows:
 
 1. Organize the data
 
-    Before processing the data, it needs to be structured into a specific format. An example of the data organization format we have defined is as follows:
+    Before processing the data, it needs to be structured into a specific format. In our experiments, the input data were derived from `HCP-YA S1200`, and an example of the data organization format we have defined is as follows:
     
     ```bash
     site_folder_example/
@@ -47,6 +49,16 @@ The steps for using this pipeline are as follows:
                 ├── sub-100408_ses-1_run-1_dwi.bvec
                 └── sub-100408_ses-1_run-1_dwi.nii.gz
     ```
+
+    The repository also includes a small `site_folder_example/` directory, which is only intended to demonstrate the expected folder hierarchy and file naming convention. You can use it as a reference when preparing your own dataset, but in real use the `site_folder` argument in the scripts should point to your actual data root.
+
+    In addition, three text files are provided to describe the subject split used in our experiments:
+
+    - `subject_list.txt`: the full list of subjects used in this project.
+    - `train_list.txt`: the training subset.
+    - `test_list.txt`: the testing subset.
+
+    Each line in these files contains one subject ID in the form `sub-xxxxxx`. You can use them as ready-made examples for dataset partitioning, or replace them with your own subject lists when running experiments on a different cohort.
 
 2. Nuclei segmentation
     
@@ -141,7 +153,7 @@ The steps for using this pipeline are as follows:
     First, you need to collect each subject's pass streamlines together and place them in a specified folder for easier subsequent operations:
 
     ```bash
-    python ./Segmentation/copy_file_with_extension.py --source_dir site_folder_example --target_dir streamlines_for_atlas_folder_example --extension pass_fibers-SeqDilation-mni.vtk
+    python ./Segmentation/copy_file_with_extension.py --source_dir site_folder_example --target_dir streamlines_folder_example --extension pass_fibers-SeqDilation-mni.vtk
     ```
 
     This will copy all of the pass streamlines files into `streamlines_folder_example`. 
